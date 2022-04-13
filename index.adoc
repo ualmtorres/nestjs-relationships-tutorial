@@ -99,12 +99,6 @@ El proyecto incorpora una configuración preterminada para:
 
 Modifíquense los valores de configuración predeterminados de acuerdo con las necesidades o preferencias de cada uno.
 
-## Diagrama del ejemplo
-
-Como escenario para el desarrollo de este tutorial, trabajaremos con un esquema sencillo de libros. El ejemplo incluye relaciones 1:M, M:1 y M:N para aprender a trabajar con ellas.
-
-$$$
-
 ## Creación del módulo de editoriales
 
 Comenzamos creando un `resource` NestJS para las editoriales. Esto creará el módulo, controlador, servicio, DTOs y entidad.
@@ -1824,5 +1818,3 @@ Si ahora recuperamos las palabras clave con el endpoint `GET /keywords` vemos qu
 
 image:palabras-clave-hidratadas-con-libros.png[]
 
-To Do: 
-$$$
