@@ -455,8 +455,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#trueconfiguración-del-módulo">3.2. Configuración del módulo</a></li>
 <li><a href="#truecreación-del-dto-de-creación-de-editoriales">3.3. Creación del DTO de creación de editoriales</a></li>
 <li><a href="#trueimplementación-de-los-métodos-del-servicio">3.4. Implementación de los métodos del servicio</a></li>
-<li><a href="#trueimplementación-del-controlador">3.5. Implementación del controlador</a></li>
-<li><a href="#truecomprobación-de-los-endpoints">3.6. Comprobación de los endpoints</a></li>
+<li><a href="#truecomprobación-de-los-endpoints">3.5. Comprobación de los endpoints</a></li>
 </ul>
 </li>
 <li><a href="#truecreación-del-módulo-de-libros">4. Creación del módulo de libros</a>
@@ -465,7 +464,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#trueconfiguración-del-módulo-2">4.2. Configuración del módulo</a></li>
 <li><a href="#truecreación-del-dto-de-creación-de-libros">4.3. Creación del DTO de creación de libros</a></li>
 <li><a href="#trueimplementación-de-los-métodos-del-servicio-2">4.4. Implementación de los métodos del servicio</a></li>
-<li><a href="#trueimplementación-del-controlador-2">4.5. Implementación del controlador</a></li>
+<li><a href="#trueimplementación-del-controlador">4.5. Implementación del controlador</a></li>
 <li><a href="#truecomprobación-de-los-endpoints-2">4.6. Comprobación de los endpoints</a></li>
 </ul>
 </li>
@@ -475,7 +474,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#trueconfiguración-del-módulo-3">5.2. Configuración del módulo</a></li>
 <li><a href="#truecreación-del-dto-de-creación-de-comentarios">5.3. Creación del DTO de creación de comentarios</a></li>
 <li><a href="#trueimplementación-de-los-métodos-del-servicio-3">5.4. Implementación de los métodos del servicio</a></li>
-<li><a href="#trueimplementación-del-controlador-3">5.5. Implementación del controlador</a></li>
+<li><a href="#trueimplementación-del-controlador-2">5.5. Implementación del controlador</a></li>
 <li><a href="#truecomprobación-de-los-endpoints-3">5.6. Comprobación de los endpoints</a></li>
 </ul>
 </li>
@@ -485,7 +484,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#trueconfiguración-del-módulo-4">6.2. Configuración del módulo</a></li>
 <li><a href="#truecreación-del-dto-de-creación-de-palabras-clave">6.3. Creación del DTO de creación de palabras clave</a></li>
 <li><a href="#trueimplementación-de-los-métodos-del-servicio-4">6.4. Implementación de los métodos del servicio</a></li>
-<li><a href="#trueimplementación-del-controlador-4">6.5. Implementación del controlador</a></li>
+<li><a href="#trueimplementación-del-controlador-3">6.5. Implementación del controlador</a></li>
 <li><a href="#truecomprobación-de-los-endpoints-4">6.6. Comprobación de los endpoints</a></li>
 </ul>
 </li>
@@ -540,7 +539,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Disponible el <a href="https://github.com/ualmtorres/nestjs-relationships.git">repositorio</a> usado en este tutorial.</p>
+<p>Disponibles los repositorios usados en este tutorial:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/ualmtorres/nestjs-relationships/tree/base">Base del caso de uso de la API de gestión de libros (Rama <code>base</code>)</a>.</p>
+</li>
+<li>
+<p><a href="https://github.com/ualmtorres/nestjs-relationships.git">Caso de uso de la API de gestión de libros (Rama <code>master</code>)</a> .</p>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -639,13 +648,13 @@ $ npm install --save @nestjs/swagger swagger-ui-express</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>JWT en la carpeta <code>utilities</code>. La comprobación de la legitimidad de los tokens se realiza mediante la comprobación de un secreto inicializado en <code>utilities/jwt.strategy.ts</code>. Está inicializado con <code>secret</code>. Por tanto, los JWT generados para usar en esta aplicación deberán haber sido generados con el secreto inicializado a <code>secret</code>.</p>
+<p>JWT en la carpeta <code>utilities</code>. La comprobación de la legitimidad de los tokens se realiza mediante la comprobación de un secreto inicializado en <code>utilities/jwt.strategy.ts</code>. Está inicializado con <code>secret</code>. Por tanto, los JWT para esta aplicación deberán haber sido generados con el secreto inicializado a <code>secret</code>.</p>
 </li>
 <li>
-<p>Configuración de TypeORM en el archivo <code>ormconfig.json</code> y en la carperta <code>config</code>.</p>
+<p>Configuración de TypeORM en los archivo <code>app.module.ts</code>, <code>ormconfig.json</code> y en la carperta <code>config</code>.</p>
 </li>
 <li>
-<p>Variables de entorno de configuración de MySQL en el archivo <code>.env</code></p>
+<p>Variables de entorno de configuración de MySQL en el archivo <code>.env</code>.</p>
 </li>
 <li>
 <p>Configuración de Swagger en <code>main.ts</code>.</p>
@@ -655,6 +664,20 @@ $ npm install --save @nestjs/swagger swagger-ui-express</code></pre>
 <div class="paragraph">
 <p>Modifíquense los valores de configuración predeterminados de acuerdo con las necesidades o preferencias de cada uno.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Para información más detallada sobre aspectos más básicos de NestJS, como módulos, servicios, controladores, configuración de JWT, TypeORM y Swagger, consulta el <a href="https://ualmtorres.github.io/SeminarioNestJS/">Tutorial de Introducción a NestJS</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -662,6 +685,20 @@ $ npm install --save @nestjs/swagger swagger-ui-express</code></pre>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Comenzamos creando un <code>resource</code> NestJS para las editoriales. Esto creará el módulo, controlador, servicio, DTOs y entidad.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Un <code>resource</code> en NestJS es una facilidad proporcionada por el CLI de NestJS para ayudarnos en tareas repetitivas para operaciones CRUD creando un módulo, controlador, servicio, entidad y DTO con una configuración básica para las operaciones de crear, consultar, actualizar y eliminar.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -692,7 +729,7 @@ export class Publisher {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
+<td>Añadir el decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -748,7 +785,7 @@ export class PublishersModule {}</code></pre>
 <div class="sect2">
 <h3 id="truecreación-del-dto-de-creación-de-editoriales"><a class="anchor" href="#truecreación-del-dto-de-creación-de-editoriales"></a>3.3. Creación del DTO de creación de editoriales</h3>
 <div class="paragraph">
-<p>Inicialmente, las columnas de editoriales son las siguientes:</p>
+<p>Inicialmente, y de acuerdo con el diagrama de <a href="#trueintroducción">Introducción</a>, los campos de editoriales, excluídos los campos de relación, son los siguientes:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -761,7 +798,7 @@ export class PublishersModule {}</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>Para crear una editorial configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el <code>id</code>. El <code>id</code> no se pasará porque será generado por la base de datos en el momento de la inserción.</p>
+<p>Para crear una editorial, configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el <code>id</code>. El <code>id</code> no se pasará porque será generado por la base de datos en el momento de la inserción.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>create-publisher.dto.ts</code>:</div>
@@ -779,7 +816,7 @@ export class CreatePublisherDto {
 <div class="listingblock">
 <div class="title">Archivo <code>publishers.service.ts</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="ts" class="language-ts hljs">import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+<pre class="highlightjs highlight"><code data-lang="ts" class="language-ts hljs">import { Injectable } from '@nestjs/common';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -788,10 +825,12 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class PublishersService {
-  constructor(
+
+  constructor( <i class="conum" data-value="1"></i><b>(1)</b>
     @InjectRepository(Publisher)
     private publishersRepository: Repository&lt;Publisher&gt;,
   ) {}
+
   create(createPublisherDto: CreatePublisherDto): Promise&lt;Publisher&gt; {
     return this.publishersRepository.save(createPublisherDto);
   }
@@ -807,24 +846,24 @@ export class PublishersService {
   }
 
   async update(id: number, updatePublisherDto: UpdatePublisherDto) {
-    if (await this.publishersRepository.findOne({ where: { id } })) {
-      return this.publishersRepository.update(id, updatePublisherDto);
-    }
-    throw new HttpException('Publisher not found', HttpStatus.NOT_FOUND);
+    return this.publishersRepository.update(id, updatePublisherDto);
   }
 
   async remove(id: number) {
-    if (await this.publishersRepository.findOne({ where: { id } })) {
-      return this.publishersRepository.delete({ id });
-    }
-    throw new HttpException('Publisher not found', HttpStatus.NOT_FOUND);
+    return this.publishersRepository.delete({ id });
   }
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Añadir el constructor inyectándole el repositorio de editoriales
+<mark>#</mark> Implementación del controlador</td>
+</tr>
+</table>
 </div>
-<div class="sect2">
-<h3 id="trueimplementación-del-controlador"><a class="anchor" href="#trueimplementación-del-controlador"></a>3.5. Implementación del controlador</h3>
 <div class="listingblock">
 <div class="title">Archivo <code>publishers.controller.ts</code></div>
 <div class="content">
@@ -845,9 +884,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('publishers')
-@ApiTags('publisher')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('publisher') <i class="conum" data-value="1"></i><b>(1)</b>
+@UseGuards(AuthGuard('jwt')) <i class="conum" data-value="2"></i><b>(2)</b>
+@ApiBearerAuth('access-token') <i class="conum" data-value="3"></i><b>(3)</b>
+
 export class PublishersController {
   constructor(private readonly publishersService: PublishersService) {}
 
@@ -881,6 +921,22 @@ export class PublishersController {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Bloque para la agrupación de endpoints en Swagger UI.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Protección mediante la guarda <code>jwt</code> definida en <code>utilities</code> del proyecto base.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Habilitar la autenticación <em>bearer</em> con el texto informativo <code>access-token</code> para el cuadro de diálogo de autorización</td>
+</tr>
+</table>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -889,7 +945,7 @@ export class PublishersController {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>El operador <code>+</code> devuelve la expresión numérica de una variable. Lo usamos para obtener el valor numérico del parámetro <code>id</code> usado en los endopoints.</p>
+<p>El operador <code>+</code> devuelve la expresión numérica de una variable. Lo usamos para obtener el valor numérico del parámetro <code>id</code> usado en los endopoints, que es una cadena.</p>
 </div>
 </td>
 </tr>
@@ -897,12 +953,26 @@ export class PublishersController {
 </div>
 </div>
 <div class="sect2">
-<h3 id="truecomprobación-de-los-endpoints"><a class="anchor" href="#truecomprobación-de-los-endpoints"></a>3.6. Comprobación de los endpoints</h3>
+<h3 id="truecomprobación-de-los-endpoints"><a class="anchor" href="#truecomprobación-de-los-endpoints"></a>3.5. Comprobación de los endpoints</h3>
 <div class="paragraph">
-<p>Si activamos la aplicación en <code><a href="http://&lt;url&gt;:&lt;port&gt;/docs" class="bare">http://&lt;url&gt;:&lt;port&gt;/docs</a></code> veremos los endpoints de la API mostrados mediante <code>Swagger UI</code>. Si probamos a usar cualquiera de ellos obtendremos un error de acceso no autorizado porque no estamos autenticados.</p>
+<p>Si activamos la aplicación en <code><a href="http://&lt;url&gt;:&lt;port&gt;/docs" class="bare">http://&lt;url&gt;:&lt;port&gt;/docs</a></code> (p.e. <code><a href="http://localhost:3000/docs" class="bare">http://localhost:3000/docs</a></code>) veremos los endpoints de la API mostrados mediante <code>Swagger UI</code>. Si probamos a usar cualquiera de ellos obtendremos un error de acceso no autorizado porque no estamos autenticados.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/publisher-endpoints.png" alt="publisher endpoints"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La ruta <code>/docs</code> viene añadida del proyecto base en el archivo <code>main.ts</code> y es donde se ha configurado que se sirva la documentación de Swagger.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -916,7 +986,7 @@ export class PublishersController {
 </div>
 </div>
 <div class="paragraph">
-<p>Podemos copiar el JWT obtenido, pulsar el botón <code>Authorize</code> de nuestra API y pegar el JWT copiado. Esto permitirá el acceso a todos los endpoints de la API y podremos usarlas.</p>
+<p>Podemos copiar el JWT obtenido, pulsar el botón <code>Authorize</code> de nuestra API y pegar el JWT copiado. Esto permitirá el acceso a todos los endpoints de la API y podremos usarlos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/usar-jwt.png" alt="usar jwt"></span></p>
@@ -1002,7 +1072,7 @@ export class Book {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
+<td>Añadir el decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1050,12 +1120,12 @@ export class BooksModule {}</code></pre>
 <div class="sect2">
 <h3 id="truecreación-del-dto-de-creación-de-libros"><a class="anchor" href="#truecreación-del-dto-de-creación-de-libros"></a>4.3. Creación del DTO de creación de libros</h3>
 <div class="paragraph">
-<p>Inicialmente, las columnas de libros son las siguientes:</p>
+<p>Inicialmente, y de acuerdo con el diagrama de <a href="#trueintroducción">Introducción</a>, los campos de los libros, excluídos los campos de relación, son los siguientes:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>id</code> como identificador de la editorial.</p>
+<p><code>id</code> como identificador del libro.</p>
 </li>
 <li>
 <p><code>title</code> como título del libro.</p>
@@ -1123,7 +1193,7 @@ import { Book } from './entities/book.entity';
 
 @Injectable()
 export class BooksService {
-  constructor(
+  constructor( <i class="conum" data-value="1"></i><b>(1)</b>
     @InjectRepository(Book) private booksRepository: Repository&lt;Book&gt;,
   ) {}
 
@@ -1157,9 +1227,17 @@ export class BooksService {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Añadir el constructor inyectándole el repositorio de libros</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="trueimplementación-del-controlador-2"><a class="anchor" href="#trueimplementación-del-controlador-2"></a>4.5. Implementación del controlador</h3>
+<h3 id="trueimplementación-del-controlador"><a class="anchor" href="#trueimplementación-del-controlador"></a>4.5. Implementación del controlador</h3>
 <div class="listingblock">
 <div class="title">Archivo <code>books.controller.ts</code></div>
 <div class="content">
@@ -1180,9 +1258,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('books')
-@ApiTags('book')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('book') <i class="conum" data-value="1"></i><b>(1)</b>
+@UseGuards(AuthGuard('jwt')) <i class="conum" data-value="2"></i><b>(2)</b>
+@ApiBearerAuth('access-token') <i class="conum" data-value="3"></i><b>(3)</b>
+
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
@@ -1213,17 +1292,33 @@ export class BooksController {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Bloque para la agrupación de endpoints en Swagger UI.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Protección mediante la guarda <code>jwt</code> definida en <code>utilities</code> del proyecto base.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Habilitar la autenticación <em>bearer</em> con el texto informativo <code>access-token</code> para el cuadro de diálogo de autorización</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="truecomprobación-de-los-endpoints-2"><a class="anchor" href="#truecomprobación-de-los-endpoints-2"></a>4.6. Comprobación de los endpoints</h3>
 <div class="paragraph">
-<p>Si activamos la aplicación en <code><a href="http://&lt;url&gt;:&lt;port&gt;/docs" class="bare">http://&lt;url&gt;:&lt;port&gt;/docs</a></code> veremos que ya están disponibles los endpoints de los libros. Tras autenticarnos con un JWT crearemos un libro y comprobaremos que se recupera de la base de datos.</p>
+<p>Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de los libros.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/book-endpoints.png" alt="book endpoints"></span></p>
 </div>
 <div class="paragraph">
-<p>Usaremos el endpoint <code>POST /books</code> para crear libros. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-book.dto.ts</code>. Si pulsamos <code>Execute</code> creará ese libro en la base de datos.</p>
+<p>Tras autenticarnos con un JWT, crearemos un libro y comprobaremos que se recupera correctamente de la base de datos. Usaremos el endpoint <code>POST /books</code> para crear libros. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-book.dto.ts</code>. Si pulsamos <code>Execute</code> creará ese libro en la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/libro-creado.png" alt="libro creado"></span></p>
@@ -1293,7 +1388,7 @@ export class Comment {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
+<td>Añadir el decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1341,7 +1436,7 @@ export class CommentsModule {}</code></pre>
 <div class="sect2">
 <h3 id="truecreación-del-dto-de-creación-de-comentarios"><a class="anchor" href="#truecreación-del-dto-de-creación-de-comentarios"></a>5.3. Creación del DTO de creación de comentarios</h3>
 <div class="paragraph">
-<p>Inicialmente, las columnas de comentarios son las siguientes:</p>
+<p>Inicialmente, y de acuerdo con el diagrama de <a href="#trueintroducción">Introducción</a>, los campos de comentarios, excluídos los campos de relación, son los siguientes:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1363,7 +1458,7 @@ export class CommentsModule {}</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>Para crear un comentario configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el <code>id</code>. El <code>id</code> no se pasará porque será generado por la base de datos en el momento de la inserción.</p>
+<p>Para crear un comentario, configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el <code>id</code>. El <code>id</code> no se pasará porque será generado por la base de datos en el momento de la inserción.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>create-comment.dto.ts</code>:</div>
@@ -1402,10 +1497,11 @@ import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class CommentsService {
-  constructor(
+  constructor( <i class="conum" data-value="1"></i><b>(1)</b>
     @InjectRepository(Comment)
     private commentsRepository: Repository&lt;Comment&gt;,
   ) {}
+
   create(createCommentDto: CreateCommentDto): Promise&lt;Comment&gt; {
     return this.commentsRepository.save(createCommentDto);
   }
@@ -1430,9 +1526,17 @@ export class CommentsService {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Añadir el constructor inyectándole el repositorio de comentarios</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="trueimplementación-del-controlador-3"><a class="anchor" href="#trueimplementación-del-controlador-3"></a>5.5. Implementación del controlador</h3>
+<h3 id="trueimplementación-del-controlador-2"><a class="anchor" href="#trueimplementación-del-controlador-2"></a>5.5. Implementación del controlador</h3>
 <div class="listingblock">
 <div class="title">Archivo <code>comments.controller.ts</code></div>
 <div class="content">
@@ -1453,9 +1557,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('comments')
-@ApiTags('comment')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('comment') <i class="conum" data-value="1"></i><b>(1)</b>
+@UseGuards(AuthGuard('jwt')) <i class="conum" data-value="2"></i><b>(2)</b>
+@ApiBearerAuth('access-token') <i class="conum" data-value="3"></i><b>(3)</b>
+
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
@@ -1486,17 +1591,33 @@ export class CommentsController {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Bloque para la agrupación de endpoints en Swagger UI.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Protección mediante la guarda <code>jwt</code> definida en <code>utilities</code> del proyecto base.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Habilitar la autenticación <em>bearer</em> con el texto informativo <code>access-token</code> para el cuadro de diálogo de autorización</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="truecomprobación-de-los-endpoints-3"><a class="anchor" href="#truecomprobación-de-los-endpoints-3"></a>5.6. Comprobación de los endpoints</h3>
 <div class="paragraph">
-<p>Si activamos la aplicación en <code><a href="http://&lt;url&gt;:&lt;port&gt;/docs" class="bare">http://&lt;url&gt;:&lt;port&gt;/docs</a></code> veremos que ya están disponibles los endpoints de los comentarios. Tras autenticarnos con un JWT crearemos un par de comentarios y comprobaremos que se recuperan de la base de datos.</p>
+<p>Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de los comentarios.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/comment-endpoints.png" alt="comment endpoints"></span></p>
 </div>
 <div class="paragraph">
-<p>Usaremos el endpoint <code>POST /comments</code> para crear comentarios. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-comment.dto.ts</code>. Si pulsamos <code>Execute</code> creará ese comentario en la base de datos.</p>
+<p>Tras autenticarnos con un JWT crearemos un par de comentarios y comprobaremos que se recuperan de la base de datos. Usaremos el endpoint <code>POST /comments</code> para crear comentarios. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-comment.dto.ts</code>. Si pulsamos <code>Execute</code> creará ese comentario en la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/comentario-creado.png" alt="comentario creado"></span></p>
@@ -1563,7 +1684,7 @@ export class Keyword {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
+<td>Añadir el decorador <code>@Entity</code> para indicar que se trata de una entidad</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1605,13 +1726,13 @@ export class KeywordsModule {}</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>Si teníamos el proyecto en ejecución se habrá creado una nueva tabla <code>keyword</code> en la base de datos correspondiente a la entidad <code>Keyword</code>.</p>
+<p>Si teníamos el proyecto en ejecución, se habrá creado una nueva tabla <code>keyword</code> en la base de datos correspondiente a la entidad <code>Keyword</code>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="truecreación-del-dto-de-creación-de-palabras-clave"><a class="anchor" href="#truecreación-del-dto-de-creación-de-palabras-clave"></a>6.3. Creación del DTO de creación de palabras clave</h3>
 <div class="paragraph">
-<p>Inicialmente, las columnas de palabras clave son las siguientes:</p>
+<p>Inicialmente, y de acuerdo con el diagrama de <a href="#trueintroducción">Introducción</a>, los campos de las palabras clave, excluídos los campos de relación, son los siguientes:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1651,10 +1772,11 @@ import { Keyword } from './entities/keyword.entity';
 
 @Injectable()
 export class KeywordsService {
-  constructor(
+  constructor( <i class="conum" data-value="1"></i><b>(1)</b>
     @InjectRepository(Keyword)
     private keywordsRepository: Repository&lt;Keyword&gt;,
   ) {}
+
   create(createKeywordDto: CreateKeywordDto): Promise&lt;Keyword&gt; {
     return this.keywordsRepository.save(createKeywordDto);
   }
@@ -1685,9 +1807,17 @@ export class KeywordsService {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Añadir el constructor inyectándole el repositorio de palabras clave</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="trueimplementación-del-controlador-4"><a class="anchor" href="#trueimplementación-del-controlador-4"></a>6.5. Implementación del controlador</h3>
+<h3 id="trueimplementación-del-controlador-3"><a class="anchor" href="#trueimplementación-del-controlador-3"></a>6.5. Implementación del controlador</h3>
 <div class="listingblock">
 <div class="title">Archivo <code>comments.controller.ts</code></div>
 <div class="content">
@@ -1708,9 +1838,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('keywords')
-@ApiTags('keyword')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('keyword') <i class="conum" data-value="1"></i><b>(1)</b>
+@UseGuards(AuthGuard('jwt')) <i class="conum" data-value="2"></i><b>(2)</b>
+@ApiBearerAuth('access-token') <i class="conum" data-value="3"></i><b>(3)</b>
+
 export class KeywordsController {
   constructor(private readonly keywordsService: KeywordsService) {}
 
@@ -1741,17 +1872,33 @@ export class KeywordsController {
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Bloque para la agrupación de endpoints en Swagger UI.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Protección mediante la guarda <code>jwt</code> definida en <code>utilities</code> del proyecto base.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Habilitar la autenticación <em>bearer</em> con el texto informativo <code>access-token</code> para el cuadro de diálogo de autorización</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="truecomprobación-de-los-endpoints-4"><a class="anchor" href="#truecomprobación-de-los-endpoints-4"></a>6.6. Comprobación de los endpoints</h3>
 <div class="paragraph">
-<p>Si activamos la aplicación en <code><a href="http://&lt;url&gt;:&lt;port&gt;/docs" class="bare">http://&lt;url&gt;:&lt;port&gt;/docs</a></code> veremos que ya están disponibles los endpoints de las palabras clave. Tras autenticarnos con un JWT crearemos dos palabras clave y comprobaremos que se recuperan de la base de datos.</p>
+<p>Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de las palabras clave.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/keyword-endpoints.png" alt="keyword endpoints"></span></p>
 </div>
 <div class="paragraph">
-<p>Usaremos el endpoint <code>POST /keywords</code> para crear palabras clave. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-keyword.dto.ts</code>. Si pulsamos <code>Execute</code> creará esa palabra clave en la base de datos.</p>
+<p>Tras autenticarnos con un JWT crearemos dos palabras clave y comprobaremos que se recuperan de la base de datos. Usaremos el endpoint <code>POST /keywords</code> para crear palabras clave. Al desplegar el endpoint pulsaremos el botón de <code>Try out</code> para lanzar la petición desde <code>Swagger UI</code>. Aparece un cuerpo de ejemplo con el DTO configurado en <code>create-keyword.dto.ts</code>. Si pulsamos <code>Execute</code> creará esa palabra clave en la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/palabra-clave-creada.png" alt="palabra clave creada"></span></p>
@@ -1760,10 +1907,10 @@ export class KeywordsController {
 <p>La parte de <code>Server response</code> muestra el código de estado HTTP devuelto así como la respuesta, que indica que la palabra clave ha sido creada y nos muestra el <code>id</code> generado por la base de datos. El objeto que devuelve es una <code>entity Keyword</code> tal y como configuramos en el método <code>create</code> del servicio <code>keywords.service.ts</code>.</p>
 </div>
 <div class="paragraph">
-<p>Crear a continuación otra editorial con "keyword": "REST API".</p>
+<p>Crear a continuación otra editorial con <code>"keyword": "REST API"</code>.</p>
 </div>
 <div class="paragraph">
-<p>Si ahora usamos el endpoint <code>GET /keywords</code> obtendremos los comentarios creados.</p>
+<p>Si ahora usamos el endpoint <code>GET /keywords</code> obtendremos las palabras clave creadas.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/palabras-clave.png" alt="palabras clave"></span></p>
@@ -1778,7 +1925,7 @@ export class KeywordsController {
 <h2 id="truecreación-de-las-relaciones"><a class="anchor" href="#truecreación-de-las-relaciones"></a>7. Creación de las relaciones</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Hasta ahora nos hemos limitado a crear los módulos de la API teniendo en cuenta únicamente los objetos o entidades que existen en nuestro proyecto desde el punto de vista de bases de datos. Es decir, nos hemos limitado a reflejar en las entidades las propiedades propias de cada objeto del dominio. Sin embargo, no hemos prestado atención aún a las relaciones existentes entre ellos y a su implicación en la implementación de los servicios. Esto último hace referencia a que si entre <code>Book</code> y <code>Comment</code> existe una relación <code>1:M</code>, nos planteamos mostrar los comentarios de cada libro al recuperar un libro. Esto posiblemente implicaría una modificación de los métodos del servicio de <code>Book</code> para que recuperase los comentarios asociados a cada libro.</p>
+<p>Hasta ahora nos hemos limitado a crear los módulos de la API teniendo en cuenta únicamente los objetos o entidades que existen en nuestro proyecto desde el punto de vista de bases de datos. Es decir, nos hemos limitado a reflejar en las entidades las propiedades propias de cada objeto del dominio. Sin embargo, no hemos prestado atención aún a las relaciones existentes entre ellos ni a sus implicaciones en la implementación de los servicios. Esto último hace referencia a que si entre <code>Book</code> y <code>Comment</code> existe una relación <code>1:M</code>, nos planteamos mostrar los comentarios de cada libro al recuperar un libro. Esto posiblemente implicará una modificación de los métodos del servicio de <code>Book</code> para que recupere también los comentarios asociados a cada libro.</p>
 </div>
 <div class="paragraph">
 <p>En esta sección veremos cómo definir las relaciones entre entidades y realizaremos los cambios en los servicios para <em>hidratar</em> o enriquecer cada objeto con los datos de sus objetos relacionados.</p>
@@ -1786,7 +1933,7 @@ export class KeywordsController {
 <div class="sect2">
 <h3 id="truecreación-de-la-relación-entre-book-y-publisher"><a class="anchor" href="#truecreación-de-la-relación-entre-book-y-publisher"></a>7.1. Creación de la relación entre <code>Book</code> y <code>Publisher</code></h3>
 <div class="paragraph">
-<p>Entre las entidades <code>Book</code> y <code>Publisher</code> hay una relación <code>M:1</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar la editorial de un libro así como los libros de una editorial.</p>
+<p>De acuerdo con el diagrama de la <a href="#trueintroducción">Introducción</a>, entre las entidades <code>Book</code> y <code>Publisher</code> hay una relación <code>M:1</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar la editorial de un libro, así como los libros de una editorial.</p>
 </div>
 <div class="sect3">
 <h4 id="truemodificación-de-las-entidades"><a class="anchor" href="#truemodificación-de-las-entidades"></a>7.1.1. Modificación de las entidades</h4>
@@ -1804,7 +1951,7 @@ export class KeywordsController {
 </ol>
 </div>
 <div class="paragraph">
-<p>Lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
+<p>Lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1916,7 +2063,7 @@ export class Book {
   @ApiProperty({ example: { id: 1 } }) <i class="conum" data-value="1"></i><b>(1)</b>
   @ManyToOne( <i class="conum" data-value="2"></i><b>(2)</b>
     () =&gt; Publisher, <i class="conum" data-value="3"></i><b>(3)</b>
-    publisher =&gt; publisher.books, <i class="conum" data-value="4"></i><b>(4)</b>
+    (publisher: Publisher) =&gt; publisher.books, <i class="conum" data-value="4"></i><b>(4)</b>
   )
   publisher: Publisher;
 }</code></pre>
@@ -1970,7 +2117,7 @@ export class Publisher {
 
   @OneToMany( <i class="conum" data-value="1"></i><b>(1)</b>
     () =&gt; Book, <i class="conum" data-value="2"></i><b>(2)</b>
-    book =&gt; book.publisher, <i class="conum" data-value="3"></i><b>(3)</b>
+    (book: Book) =&gt; book.publisher, <i class="conum" data-value="3"></i><b>(3)</b>
   )
   books: Book[];
 }</code></pre>
@@ -2003,7 +2150,7 @@ export class Publisher {
 <div class="sect3">
 <h4 id="truemodificación-del-dto"><a class="anchor" href="#truemodificación-del-dto"></a>7.1.2. Modificación del DTO</h4>
 <div class="paragraph">
-<p>En este paso se modifican los DTO afectados. Para el caso de los libros habrá que modificar el DTO <code>create-book.dto.ts</code> para añadirle la editorial de un libro. Este DTO se usará tanto para la creación de nuevos libros como para la modificación de libros existentes. En cualquier caso, el valor introducido para editorial deberá ser un objeto con el campo <code>id</code> y el identificador de la editorial del libro. Por tanto. la editorial deberá existir previamente antes de asignarla a un libro.</p>
+<p>En este paso se modifican los DTO afectados. Para el caso de los libros, habrá que modificar el DTO <code>create-book.dto.ts</code> para añadirle la editorial de un libro. Este DTO se usará tanto para la creación de nuevos libros como para la modificación de libros existentes. En cualquier caso, el valor introducido para editorial deberá ser un objeto con el campo <code>id</code> y el identificador de la editorial del libro. Por tanto. la editorial deberá existir previamente antes de asignarla a un libro.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>create-book.dto.ts</code></div>
@@ -2051,13 +2198,13 @@ export class CreateBookDto {
 </div>
 </div>
 <div class="paragraph">
-<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelvel el libro creado con el nuevo identificador generado por la base de datos.</p>
+<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelve el libro creado con el nuevo identificador generado por la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/libro-insertado-con-editorial.png" alt="libro insertado con editorial"></span></p>
 </div>
 <div class="paragraph">
-<p>Del mismo modo, podemos modificar el primer libro para añadirle la editorial. Habría que usar el endpoint <code>PATCH /books/{id}</code> y pasarle como <code>body</code> el objeto de la editorial al que se quiere asignar. Como el libro <code>1</code> es de la editorial <code>Alfaguara</code>, que es la <code>2</code> haríamos la modificación tal y como indica la figura siguiente.</p>
+<p>Del mismo modo, podemos modificar el primer libro para añadirle la editorial. Habría que usar el endpoint <code>PATCH /books/{id}</code> y pasarle como <code>body</code> el objeto de la editorial al que se quiere asignar. Como el libro <code>1</code> es de la editorial <code>Alfaguara</code>, que es la que tiene <code>"id": 2</code>, haríamos la modificación tal y como indica la figura siguiente.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/asignar-editorial-a-libro.png" alt="asignar editorial a libro"></span></p>
@@ -2088,7 +2235,7 @@ export class CreateBookDto {
 <p>Veamos cómo hacerlo.</p>
 </div>
 <div class="paragraph">
-<p>Comenzaremos modificando el servicio de libros para que cargue las editoriales al recuperar un libro. Se trata de incluir la relación <code>publisher</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>.</p>
+<p>Comenzaremos modificando el servicio de libros para que cargue las editoriales al recuperar un libro. Se trata de incluir la relación <code>publisher</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>books.service.ts</code></div>
@@ -2133,7 +2280,7 @@ export class BooksService {
 <p><span class="image"><img src="./images/libros-hidratados-con-editoriales.png" alt="libros hidratados con editoriales"></span></p>
 </div>
 <div class="paragraph">
-<p>A continuación modificamos el servicio de editoriales para que cargue los libros al recuperar una ediorial. Se trata de incluir la relación <code>books</code> en los métodos <code>find</code> y <code>findOne</code> de <code>publishers.service.ts</code>.</p>
+<p>A continuación modificamos el servicio de editoriales para que cargue los libros al recuperar una editorial. Se trata de incluir la relación <code>books</code> en los métodos <code>find</code> y <code>findOne</code> de <code>publishers.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>publishers.service.ts</code></div>
@@ -2172,7 +2319,7 @@ export class PublishersService {
 </table>
 </div>
 <div class="paragraph">
-<p>Si ahora recuperamos las editoriales con el endpoint <code>GET /publishers</code> vemos que ya se incorpora los libros a cada editorial.</p>
+<p>Si ahora recuperamos las editoriales con el endpoint <code>GET /publishers</code> vemos que ya se incorporan los libros a cada editorial.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/editorial-hidratada-con-libros.png" alt="editorial hidratada con libros"></span></p>
@@ -2182,7 +2329,7 @@ export class PublishersService {
 <div class="sect2">
 <h3 id="truecreación-de-la-relación-entre-book-y-comment"><a class="anchor" href="#truecreación-de-la-relación-entre-book-y-comment"></a>7.2. Creación de la relación entre <code>Book</code> y <code>Comment</code></h3>
 <div class="paragraph">
-<p>Entre las entidades <code>Book</code> y <code>Comment</code> hay una relación <code>1:M</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar los comentarios de un libro así como ver a qué libro corresponde un comentario.</p>
+<p>De acuerdo con el diagrama de la <a href="#trueintroducción">Introducción</a>, entre las entidades <code>Book</code> y <code>Comment</code> hay una relación <code>1:M</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar los comentarios de un libro, así como ver a qué libro corresponde un comentario.</p>
 </div>
 <div class="sect3">
 <h4 id="truemodificación-de-las-entidades-2"><a class="anchor" href="#truemodificación-de-las-entidades-2"></a>7.2.1. Modificación de las entidades</h4>
@@ -2200,7 +2347,7 @@ export class PublishersService {
 </ol>
 </div>
 <div class="paragraph">
-<p>Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
+<p>Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2419,7 +2566,7 @@ export class Comment {
 <div class="sect3">
 <h4 id="truemodificación-del-dto-2"><a class="anchor" href="#truemodificación-del-dto-2"></a>7.2.2. Modificación del DTO</h4>
 <div class="paragraph">
-<p>En este paso se modifican los DTO afectados. Para el caso de los comentarios habrá que modificar el DTO <code>create-comment.dto.ts</code> para añadirle el identificador de un libro. Este DTO se usará tanto para la creación de nuevos comentarios como para la modificación de comentarios existentes. En cualquier caso, el valor introducido para el libro deberá ser un objeto con el campo <code>id</code> y el identificador del libro. Por tanto, el libro deberá existir previamente antes de crearle un comentario.</p>
+<p>En este paso se modifican los DTO afectados. Para el caso de los comentarios, habrá que modificar el DTO <code>create-comment.dto.ts</code> para añadirle el identificador de un libro. Este DTO se usará tanto para la creación de nuevos comentarios como para la modificación de comentarios existentes. En cualquier caso, el valor introducido para el libro deberá ser un objeto con el campo <code>id</code> y el identificador del libro. Por tanto, el libro deberá existir previamente antes de crearle un comentario.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>create-comment.dto.ts</code></div>
@@ -2433,7 +2580,7 @@ export class CreateCommentDto {
   readonly username: string;
 
   @ApiProperty({ example: { id: 1 }, type: String }) <i class="conum" data-value="1"></i><b>(1)</b>
-  readonly book: Book;
+  readonly book: Book; <i class="conum" data-value="2"></i><b>(2)</b>
 }</pre>
 </div>
 </div>
@@ -2480,19 +2627,19 @@ export class CreateCommentDto {
 </div>
 </div>
 <div class="paragraph">
-<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del comentario y devuelvel el comentario creado con el nuevo identificador generado por la base de datos.</p>
+<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del comentario y devuelve el comentario creado con el nuevo identificador generado por la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/comentario-insertado-con-libro.png" alt="comentario insertado con libro"></span></p>
 </div>
 <div class="paragraph">
-<p>Del mismo modo, podemos modificar el primer comentario para añadirle un libro. Habría que usar el endpoint <code>PATCH /comments/{id}</code> y pasarle como <code>body</code> el objeto del libro al que se quiere asignar. Haríamos la modificación de asignar el comentario ' 1'  al libro <code>1</code>, tal y como indica la figura siguiente.</p>
+<p>Del mismo modo, podemos modificar el primer comentario para añadirle un libro. Habría que usar el endpoint <code>PATCH /comments/{id}</code> y pasarle como <code>body</code> el objeto del libro al que se quiere asignar. Haríamos la modificación de asignar el libro con <code>"id": 1</code> al comentario <code>1</code>, tal y como indica la figura siguiente.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/asignar-comentario-a-libro.png" alt="asignar comentario a libro"></span></p>
 </div>
 <div class="paragraph">
-<p>Sin embargo, si recuperamos los comentarios con el endpoint <code>GET /comments</code> veremos que aparecen los comentarios, pero sin libro. Del mismo modo, si obtenemos el libro <code>1</code>, al que le hemos creados los comentarios, vemos que los datos aún no aparecen. En la sección siguiente veremos cómo modificar <code>comments.service.ts</code> para que devuelva los datos del libro al recuperar un comentario.</p>
+<p>Sin embargo, si recuperamos los comentarios con el endpoint <code>GET /comments</code> veremos que aparecen los comentarios, pero sin libro. Del mismo modo, si obtenemos el libro <code>1</code>, al que le hemos creado los comentarios, vemos que los datos aún no aparecen. En la sección siguiente veremos cómo modificar <code>comments.service.ts</code> para que devuelva los datos del libro al recuperar un comentario.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/comentarios-sin-libro.png" alt="comentarios sin libro"></span></p>
@@ -2517,7 +2664,7 @@ export class CreateCommentDto {
 <p>Veamos cómo hacerlo.</p>
 </div>
 <div class="paragraph">
-<p>Comenzaremos modificando el servicio de libros para que cargue los comentarios al recuperar un libro. Se trata de incluir la relación <code>comments</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>.</p>
+<p>Comenzaremos modificando el servicio de libros para que cargue los comentarios al recuperar un libro. Se trata de incluir la relación <code>comments</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>books.service.ts</code></div>
@@ -2562,7 +2709,7 @@ export class BooksService {
 <p><span class="image"><img src="./images/libros-hidratados-con-comentarios.png" alt="libros hidratados con comentarios"></span></p>
 </div>
 <div class="paragraph">
-<p>A continuación modificamos el servicio de comentarios para que cargue el libro al recuperar un comentario. Se trata de incluir la relación <code>book</code> en los métodos <code>find</code> y <code>findOne</code> de <code>comments.service.ts</code>.</p>
+<p>A continuación modificamos el servicio de comentarios para que cargue el libro al recuperar un comentario. Se trata de incluir la relación <code>book</code> en los métodos <code>find</code> y <code>findOne</code> de <code>comments.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>comments.service.ts</code></div>
@@ -2611,7 +2758,7 @@ export class CommentsService {
 <div class="sect2">
 <h3 id="truecreación-de-la-relación-entre-book-y-keyword"><a class="anchor" href="#truecreación-de-la-relación-entre-book-y-keyword"></a>7.3. Creación de la relación entre <code>Book</code> y <code>Keyword</code></h3>
 <div class="paragraph">
-<p>Entre las entidades <code>Book</code> y <code>Keyword</code> hay una relación <code>M:N</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar las palabras clave de un libro así como ver los libros asociados a una palabra clave.</p>
+<p>De acuerdo con el diagrama de la <a href="#trueintroducción">Introducción</a>, entre las entidades <code>Book</code> y <code>Keyword</code> hay una relación <code>M:N</code>. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar las palabras clave de un libro, así como ver los libros asociados a una palabra clave.</p>
 </div>
 <div class="sect3">
 <h4 id="truemodificación-de-las-entidades-3"><a class="anchor" href="#truemodificación-de-las-entidades-3"></a>7.3.1. Modificación de las entidades</h4>
@@ -2629,7 +2776,7 @@ export class CommentsService {
 </ol>
 </div>
 <div class="paragraph">
-<p>Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
+<p>Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2769,7 +2916,21 @@ export class Book {
 <p>Para la definición de la propiedad se establece un objeto (<code>keyword</code>) de la entidad del otro extremo y se indica el campo que establece la relación inversa (<code>keyword.books</code>).</p>
 </div>
 <div class="paragraph">
-<p>Al guardar los cambios en la entidad, se habrá creado una nueva tabla en la base de datos, ya que en relaciones <code>M:N</code> se crea una tabla nueva para la relación formada por la unión de las claves de entidades que participan en la relación(<code>Book</code> y <code>Keyword</code>).</p>
+<p>Al guardar los cambios en la entidad, se habrá creado una nueva tabla en la base de datos, ya que en relaciones <code>M:N</code> se crea una tabla nueva para la relación formada por la unión de las claves de las entidades que participan en la relación (<code>Book</code> y <code>Keyword</code>).</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>El decorador <code>@JoinTable</code> sólo se puede colocar en un extremo de la relación. A ese extremo se le conoce como <em>propietario</em>.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>A continuación se muestran los cambios introducidos en la entidad <code>Keyword</code> para añadir la relación <code>M:N</code> con <code>Book</code>.</p>
@@ -2854,7 +3015,7 @@ export class CreateBookDto {
 </table>
 </div>
 <div class="paragraph">
-<p>A continuación introduciremos un nuevo libro pasándole como valor de <code>keyword</code> las dos existentes (<code>[{"id": 1}, {"id": 2}]</code>).</p>
+<p>A continuación introduciremos un nuevo libro pasándole como valor de <code>keyword</code> las dos palabras claves existentes (<code>[{"id": 1}, {"id": 2}]</code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2880,7 +3041,7 @@ export class CreateBookDto {
 </div>
 </div>
 <div class="paragraph">
-<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelvel el libro creado con el nuevo identificador generado por la base de datos.</p>
+<p>Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelve el libro creado con el nuevo identificador generado por la base de datos.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/libro-insertado-con-palabras-clave.png" alt="libro insertado con palabras clave"></span></p>
@@ -2889,7 +3050,7 @@ export class CreateBookDto {
 <p>Del mismo modo, podríamos modificar un libro existente para añadirle palabras clave. Habría que usar el endpoint <code>PATCH /books/{id}</code> y pasarle como <code>body</code> el array de objetos palabras clave que se le quieren asignar.</p>
 </div>
 <div class="paragraph">
-<p>Sin embargo, si recuperamos los libros con el endpoint <code>GET /books</code> veremos que aparece el libro, pero sin las palabras clave. Del mismo modo, si obtenemos las palabras clave, vemos que los aparece el libro que tiene esas palabras clave. En la sección siguiente veremos cómo modificar <code>books.service.ts</code> para que devuelva las palabras clave al recuperar un libro.</p>
+<p>Sin embargo, si recuperamos los libros con el endpoint <code>GET /books</code> veremos que aparece el libro, pero sin las palabras clave. Del mismo modo, si obtenemos las palabras clave, con <code>GET /keywords</code> vemos que no aparece el libro que tiene esas palabras clave. En la sección siguiente veremos cómo modificar <code>books.service.ts</code> para que devuelva las palabras clave al recuperar un libro.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./images/libro-sin-palabras-clave.png" alt="libro sin palabras clave"></span></p>
@@ -2914,7 +3075,7 @@ export class CreateBookDto {
 <p>Veamos cómo hacerlo.</p>
 </div>
 <div class="paragraph">
-<p>Comenzaremos modificando el servicio de libros para que cargue las palabras clave al recuperar un libro. Se trata de incluir la relación <code>keywords</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>.</p>
+<p>Comenzaremos modificando el servicio de libros para que cargue las palabras clave al recuperar un libro. Se trata de incluir la relación <code>keywords</code> en los métodos <code>find</code> y <code>findOne</code> de <code>books.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>books.service.ts</code></div>
@@ -2961,7 +3122,7 @@ export class BooksService {
 <p><span class="image"><img src="./images/libros-hidratados-con-palabras-clave.png" alt="libros hidratados con palabras clave"></span></p>
 </div>
 <div class="paragraph">
-<p>A continuación modificamos el servicio de palabras clave para que cargue los libros asociados al recuperar una palabra clave. Se trata de incluir la relación <code>books</code> en los métodos <code>find</code> y <code>findOne</code> de <code>keywords.service.ts</code>.</p>
+<p>A continuación modificamos el servicio de palabras clave para que cargue los libros asociados al recuperar una palabra clave. Se trata de incluir la relación <code>books</code> en los métodos <code>find</code> y <code>findOne</code> de <code>keywords.service.ts</code>. El nombre de la relación se toma del campo decorado con el decorador de relación.</p>
 </div>
 <div class="listingblock">
 <div class="title">Archivo <code>keywords.service.ts</code></div>
@@ -3012,7 +3173,7 @@ export class KeywordsService {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-13 17:46:27 +0200
+Last updated 2022-04-13 21:53:39 +0200
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

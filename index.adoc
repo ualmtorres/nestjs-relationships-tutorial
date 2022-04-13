@@ -40,7 +40,10 @@ COLOCA A CONTINUACION LOS OBJETIVOS
 
 [TIP]
 ====
-Disponible el https://github.com/ualmtorres/nestjs-relationships.git[repositorio] usado en este tutorial.
+Disponibles los repositorios usados en este tutorial:
+
+* https://github.com/ualmtorres/nestjs-relationships/tree/base[Base del caso de uso de la API de gestión de libros (Rama `base`)].
+* https://github.com/ualmtorres/nestjs-relationships.git[Caso de uso de la API de gestión de libros (Rama `master`)] .
 ====
 
 // Entrar en modo numerado de apartados
@@ -92,16 +95,26 @@ Este proyecto usa MySQL como base de datos. Debe existir una base de datos cread
 
 El proyecto incorpora una configuración preterminada para:
 
-* JWT en la carpeta `utilities`. La comprobación de la legitimidad de los tokens se realiza mediante la comprobación de un secreto inicializado en `utilities/jwt.strategy.ts`. Está inicializado con `secret`. Por tanto, los JWT generados para usar en esta aplicación deberán haber sido generados con el secreto inicializado a `secret`.
-* Configuración de TypeORM en el archivo `ormconfig.json` y en la carperta `config`.
-* Variables de entorno de configuración de MySQL en el archivo `.env`
+* JWT en la carpeta `utilities`. La comprobación de la legitimidad de los tokens se realiza mediante la comprobación de un secreto inicializado en `utilities/jwt.strategy.ts`. Está inicializado con `secret`. Por tanto, los JWT para esta aplicación deberán haber sido generados con el secreto inicializado a `secret`.
+* Configuración de TypeORM en los archivo `app.module.ts`, `ormconfig.json` y en la carperta `config`.
+* Variables de entorno de configuración de MySQL en el archivo `.env`.
 * Configuración de Swagger en `main.ts`.
 
 Modifíquense los valores de configuración predeterminados de acuerdo con las necesidades o preferencias de cada uno.
 
+[NOTE]
+====
+Para información más detallada sobre aspectos más básicos de NestJS, como módulos, servicios, controladores, configuración de JWT, TypeORM y Swagger, consulta el https://ualmtorres.github.io/SeminarioNestJS/[Tutorial de Introducción a NestJS].
+====
+
 ## Creación del módulo de editoriales
 
 Comenzamos creando un `resource` NestJS para las editoriales. Esto creará el módulo, controlador, servicio, DTOs y entidad.
+
+[NOTE]
+====
+Un `resource` en NestJS es una facilidad proporcionada por el CLI de NestJS para ayudarnos en tareas repetitivas para operaciones CRUD creando un módulo, controlador, servicio, entidad y DTO con una configuración básica para las operaciones de crear, consultar, actualizar y eliminar.
+====
 
 [source, ts]
 ----
@@ -127,7 +140,7 @@ export class Publisher {
   name: string;
 }
 ----
-<1> Decorador `@Entity` para indicar que se trata de una entidad
+<1> Añadir el decorador `@Entity` para indicar que se trata de una entidad
 <2> Columna de clave primaria
 <3> Columna para el nombre de la editorial
 
@@ -163,12 +176,12 @@ se creará una nueva tabla `publisher` en la base de datos correspondiente a la 
 
 ### Creación del DTO de creación de editoriales
 
-Inicialmente, las columnas de editoriales son las siguientes:
+Inicialmente, y de acuerdo con el diagrama de <<Introducción>>, los campos de editoriales, excluídos los campos de relación, son los siguientes:
 
 * `id` como identificador de la editorial.
 * `name` como nombre de la editorial
 
-Para crear una editorial configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el `id`. El `id` no se pasará porque será generado por la base de datos en el momento de la inserción.
+Para crear una editorial, configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el `id`. El `id` no se pasará porque será generado por la base de datos en el momento de la inserción.
 
 .Archivo `create-publisher.dto.ts`:
 [source, ts]
@@ -186,7 +199,7 @@ export class CreatePublisherDto {
 
 [source, ts]
 ----
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -195,10 +208,12 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class PublishersService {
-  constructor(
+
+  constructor( <1>
     @InjectRepository(Publisher)
     private publishersRepository: Repository<Publisher>,
   ) {}
+
   create(createPublisherDto: CreatePublisherDto): Promise<Publisher> {
     return this.publishersRepository.save(createPublisherDto);
   }
@@ -214,21 +229,15 @@ export class PublishersService {
   }
 
   async update(id: number, updatePublisherDto: UpdatePublisherDto) {
-    if (await this.publishersRepository.findOne({ where: { id } })) {
-      return this.publishersRepository.update(id, updatePublisherDto);
-    }
-    throw new HttpException('Publisher not found', HttpStatus.NOT_FOUND);
+    return this.publishersRepository.update(id, updatePublisherDto);
   }
 
   async remove(id: number) {
-    if (await this.publishersRepository.findOne({ where: { id } })) {
-      return this.publishersRepository.delete({ id });
-    }
-    throw new HttpException('Publisher not found', HttpStatus.NOT_FOUND);
+    return this.publishersRepository.delete({ id });
   }
 }
 ----
-
+<1> Añadir el constructor inyectándole el repositorio de editoriales
 ### Implementación del controlador
 
 .Archivo `publishers.controller.ts`
@@ -252,9 +261,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('publishers')
-@ApiTags('publisher')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('publisher') <1>
+@UseGuards(AuthGuard('jwt')) <2>
+@ApiBearerAuth('access-token') <3>
+
 export class PublishersController {
   constructor(private readonly publishersService: PublishersService) {}
 
@@ -287,17 +297,25 @@ export class PublishersController {
   }
 }
 ----
+<1> Bloque para la agrupación de endpoints en Swagger UI.
+<2> Protección mediante la guarda `jwt` definida en `utilities` del proyecto base.
+<3> Habilitar la autenticación _bearer_ con el texto informativo `access-token` para el cuadro de diálogo de autorización
 
 [NOTE]
 ====
-El operador `+` devuelve la expresión numérica de una variable. Lo usamos para obtener el valor numérico del parámetro `id` usado en los endopoints.
+El operador `+` devuelve la expresión numérica de una variable. Lo usamos para obtener el valor numérico del parámetro `id` usado en los endopoints, que es una cadena.
 ====
 
 ### Comprobación de los endpoints
 
-Si activamos la aplicación en `http://<url>:<port>/docs` veremos los endpoints de la API mostrados mediante `Swagger UI`. Si probamos a usar cualquiera de ellos obtendremos un error de acceso no autorizado porque no estamos autenticados.
+Si activamos la aplicación en `http://<url>:<port>/docs` (p.e. `http://localhost:3000/docs`) veremos los endpoints de la API mostrados mediante `Swagger UI`. Si probamos a usar cualquiera de ellos obtendremos un error de acceso no autorizado porque no estamos autenticados.
 
 image:publisher-endpoints.png[]
+
+[NOTE]
+====
+La ruta `/docs` viene añadida del proyecto base en el archivo `main.ts` y es donde se ha configurado que se sirva la documentación de Swagger.
+====
 
 .Obtención de un JWT
 ****
@@ -306,7 +324,7 @@ Mientras no tengamos un generador de JWT podemos usar el que ofrece https://jwt.
 image:obtener-jwt.png[]
 ****
 
-Podemos copiar el JWT obtenido, pulsar el botón `Authorize` de nuestra API y pegar el JWT copiado. Esto permitirá el acceso a todos los endpoints de la API y podremos usarlas.
+Podemos copiar el JWT obtenido, pulsar el botón `Authorize` de nuestra API y pegar el JWT copiado. Esto permitirá el acceso a todos los endpoints de la API y podremos usarlos.
 
 image:usar-jwt.png[]
 
@@ -374,7 +392,7 @@ export class Book {
   image_url: string;
 }
 ----
-<1> Decorador `@Entity` para indicar que se trata de una entidad
+<1> Añadir el decorador `@Entity` para indicar que se trata de una entidad
 <2> Columna de clave primaria
 <3> Columna para el título
 
@@ -404,9 +422,9 @@ Si teníamos el proyecto en ejecución se habrá creado una nueva tabla `book` e
 
 ### Creación del DTO de creación de libros
 
-Inicialmente, las columnas de libros son las siguientes:
+Inicialmente, y de acuerdo con el diagrama de <<Introducción>>, los campos de los libros, excluídos los campos de relación, son los siguientes:
 
-* `id` como identificador de la editorial.
+* `id` como identificador del libro.
 * `title` como título del libro.
 * `genre` como género del libro.
 * `description` como descripción del libro.
@@ -460,7 +478,7 @@ import { Book } from './entities/book.entity';
 
 @Injectable()
 export class BooksService {
-  constructor(
+  constructor( <1>
     @InjectRepository(Book) private booksRepository: Repository<Book>,
   ) {}
 
@@ -493,6 +511,7 @@ export class BooksService {
   }
 }
 ----
+<1> Añadir el constructor inyectándole el repositorio de libros
 
 ### Implementación del controlador
 
@@ -517,9 +536,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('books')
-@ApiTags('book')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('book') <1>
+@UseGuards(AuthGuard('jwt')) <2>
+@ApiBearerAuth('access-token') <3>
+
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
@@ -549,14 +569,17 @@ export class BooksController {
   }
 }
 ----
+<1> Bloque para la agrupación de endpoints en Swagger UI.
+<2> Protección mediante la guarda `jwt` definida en `utilities` del proyecto base.
+<3> Habilitar la autenticación _bearer_ con el texto informativo `access-token` para el cuadro de diálogo de autorización
 
 ### Comprobación de los endpoints
 
-Si activamos la aplicación en `http://<url>:<port>/docs` veremos que ya están disponibles los endpoints de los libros. Tras autenticarnos con un JWT crearemos un libro y comprobaremos que se recupera de la base de datos.
+Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de los libros. 
 
 image:book-endpoints.png[]
 
-Usaremos el endpoint `POST /books` para crear libros. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-book.dto.ts`. Si pulsamos `Execute` creará ese libro en la base de datos.
+Tras autenticarnos con un JWT, crearemos un libro y comprobaremos que se recupera correctamente de la base de datos. Usaremos el endpoint `POST /books` para crear libros. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-book.dto.ts`. Si pulsamos `Execute` creará ese libro en la base de datos.
 
 image:libro-creado.png[]
 
@@ -611,7 +634,7 @@ export class Comment {
   username: string;
 }
 ----
-<1> Decorador `@Entity` para indicar que se trata de una entidad
+<1> Añadir el decorador `@Entity` para indicar que se trata de una entidad
 <2> Columna de clave primaria
 <3> Columna para el título del comentario
 
@@ -640,7 +663,7 @@ Si teníamos el proyecto en ejecución se habrá creado una nueva tabla `comment
 
 ### Creación del DTO de creación de comentarios
 
-Inicialmente, las columnas de comentarios son las siguientes:
+Inicialmente, y de acuerdo con el diagrama de <<Introducción>>, los campos de comentarios, excluídos los campos de relación, son los siguientes:
 
 * `id` como identificador del comentario.
 * `title` como título del comentario.
@@ -648,7 +671,7 @@ Inicialmente, las columnas de comentarios son las siguientes:
 * `comment` como descripción del comentario.
 * `username` como autor del comentario.
 
-Para crear un comentario configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el `id`. El `id` no se pasará porque será generado por la base de datos en el momento de la inserción.
+Para crear un comentario, configuraremos su DTO e incluiremos todas las columnas de la entidad excepto el `id`. El `id` no se pasará porque será generado por la base de datos en el momento de la inserción.
 
 .Archivo `create-comment.dto.ts`:
 [source, ts]
@@ -687,10 +710,11 @@ import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class CommentsService {
-  constructor(
+  constructor( <1>
     @InjectRepository(Comment)
     private commentsRepository: Repository<Comment>,
   ) {}
+
   create(createCommentDto: CreateCommentDto): Promise<Comment> {
     return this.commentsRepository.save(createCommentDto);
   }
@@ -714,6 +738,7 @@ export class CommentsService {
   }
 }
 ----
+<1> Añadir el constructor inyectándole el repositorio de comentarios
 
 ### Implementación del controlador
 
@@ -738,9 +763,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('comments')
-@ApiTags('comment')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('comment') <1>
+@UseGuards(AuthGuard('jwt')) <2>
+@ApiBearerAuth('access-token') <3>
+
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
@@ -770,14 +796,17 @@ export class CommentsController {
   }
 }
 ----
+<1> Bloque para la agrupación de endpoints en Swagger UI.
+<2> Protección mediante la guarda `jwt` definida en `utilities` del proyecto base.
+<3> Habilitar la autenticación _bearer_ con el texto informativo `access-token` para el cuadro de diálogo de autorización
 
 ### Comprobación de los endpoints
 
-Si activamos la aplicación en `http://<url>:<port>/docs` veremos que ya están disponibles los endpoints de los comentarios. Tras autenticarnos con un JWT crearemos un par de comentarios y comprobaremos que se recuperan de la base de datos.
+Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de los comentarios. 
 
 image:comment-endpoints.png[]
 
-Usaremos el endpoint `POST /comments` para crear comentarios. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-comment.dto.ts`. Si pulsamos `Execute` creará ese comentario en la base de datos.
+Tras autenticarnos con un JWT crearemos un par de comentarios y comprobaremos que se recuperan de la base de datos. Usaremos el endpoint `POST /comments` para crear comentarios. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-comment.dto.ts`. Si pulsamos `Execute` creará ese comentario en la base de datos.
 
 image:comentario-creado.png[]
 
@@ -828,7 +857,7 @@ export class Keyword {
   keyword: string;
 }
 ----
-<1> Decorador `@Entity` para indicar que se trata de una entidad
+<1> Añadir el decorador `@Entity` para indicar que se trata de una entidad
 <2> Columna de clave primaria
 <3> Columna para la palabra clave
 
@@ -853,11 +882,11 @@ export class KeywordsModule {}
 ----
 <1> Añadimos los `imports` para registrar la entidad de las palabras clave y el módulo de autenticación
 
-Si teníamos el proyecto en ejecución se habrá creado una nueva tabla `keyword` en la base de datos correspondiente a la entidad `Keyword`.
+Si teníamos el proyecto en ejecución, se habrá creado una nueva tabla `keyword` en la base de datos correspondiente a la entidad `Keyword`.
 
 ### Creación del DTO de creación de palabras clave
 
-Inicialmente, las columnas de palabras clave son las siguientes:
+Inicialmente, y de acuerdo con el diagrama de <<Introducción>>, los campos de las palabras clave, excluídos los campos de relación, son los siguientes:
 
 * `id` como identificador de la palabra clave.
 * `keyword` como palabra clave.
@@ -889,10 +918,11 @@ import { Keyword } from './entities/keyword.entity';
 
 @Injectable()
 export class KeywordsService {
-  constructor(
+  constructor( <1>
     @InjectRepository(Keyword)
     private keywordsRepository: Repository<Keyword>,
   ) {}
+
   create(createKeywordDto: CreateKeywordDto): Promise<Keyword> {
     return this.keywordsRepository.save(createKeywordDto);
   }
@@ -922,6 +952,7 @@ export class KeywordsService {
   }
 }
 ----
+<1> Añadir el constructor inyectándole el repositorio de palabras clave
 
 ### Implementación del controlador
 
@@ -946,9 +977,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('keywords')
-@ApiTags('keyword')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth('access-token')
+@ApiTags('keyword') <1>
+@UseGuards(AuthGuard('jwt')) <2>
+@ApiBearerAuth('access-token') <3>
+
 export class KeywordsController {
   constructor(private readonly keywordsService: KeywordsService) {}
 
@@ -978,22 +1010,25 @@ export class KeywordsController {
   }
 }
 ----
+<1> Bloque para la agrupación de endpoints en Swagger UI.
+<2> Protección mediante la guarda `jwt` definida en `utilities` del proyecto base.
+<3> Habilitar la autenticación _bearer_ con el texto informativo `access-token` para el cuadro de diálogo de autorización
 
 ### Comprobación de los endpoints
 
-Si activamos la aplicación en `http://<url>:<port>/docs` veremos que ya están disponibles los endpoints de las palabras clave. Tras autenticarnos con un JWT crearemos dos palabras clave y comprobaremos que se recuperan de la base de datos.
+Para ver los cambios introducidos habrá que recargar el navegador. Esto hará que se pierda el JWT y habrá que volver a pasar por el proceso de autenticación. Tras esto, veremos que ya están disponibles los endpoints de las palabras clave. 
 
 image:keyword-endpoints.png[]
 
-Usaremos el endpoint `POST /keywords` para crear palabras clave. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-keyword.dto.ts`. Si pulsamos `Execute` creará esa palabra clave en la base de datos.
+Tras autenticarnos con un JWT crearemos dos palabras clave y comprobaremos que se recuperan de la base de datos. Usaremos el endpoint `POST /keywords` para crear palabras clave. Al desplegar el endpoint pulsaremos el botón de `Try out` para lanzar la petición desde `Swagger UI`. Aparece un cuerpo de ejemplo con el DTO configurado en `create-keyword.dto.ts`. Si pulsamos `Execute` creará esa palabra clave en la base de datos.
 
 image:palabra-clave-creada.png[]
 
 La parte de `Server response` muestra el código de estado HTTP devuelto así como la respuesta, que indica que la palabra clave ha sido creada y nos muestra el `id` generado por la base de datos. El objeto que devuelve es una `entity Keyword` tal y como configuramos en el método `create` del servicio `keywords.service.ts`.
 
-Crear a continuación otra editorial con "keyword": "REST API".
+Crear a continuación otra editorial con `"keyword": "REST API"`.
 
-Si ahora usamos el endpoint `GET /keywords` obtendremos los comentarios creados.
+Si ahora usamos el endpoint `GET /keywords` obtendremos las palabras clave creadas.
 
 image:palabras-clave.png[]
 
@@ -1001,13 +1036,13 @@ La parte de `Server response` muestra el código de estado HTTP devuelto así co
 
 ## Creación de las relaciones
 
-Hasta ahora nos hemos limitado a crear los módulos de la API teniendo en cuenta únicamente los objetos o entidades que existen en nuestro proyecto desde el punto de vista de bases de datos. Es decir, nos hemos limitado a reflejar en las entidades las propiedades propias de cada objeto del dominio. Sin embargo, no hemos prestado atención aún a las relaciones existentes entre ellos y a su implicación en la implementación de los servicios. Esto último hace referencia a que si entre `Book` y `Comment` existe una relación `1:M`, nos planteamos mostrar los comentarios de cada libro al recuperar un libro. Esto posiblemente implicaría una modificación de los métodos del servicio de `Book` para que recuperase los comentarios asociados a cada libro.
+Hasta ahora nos hemos limitado a crear los módulos de la API teniendo en cuenta únicamente los objetos o entidades que existen en nuestro proyecto desde el punto de vista de bases de datos. Es decir, nos hemos limitado a reflejar en las entidades las propiedades propias de cada objeto del dominio. Sin embargo, no hemos prestado atención aún a las relaciones existentes entre ellos ni a sus implicaciones en la implementación de los servicios. Esto último hace referencia a que si entre `Book` y `Comment` existe una relación `1:M`, nos planteamos mostrar los comentarios de cada libro al recuperar un libro. Esto posiblemente implicará una modificación de los métodos del servicio de `Book` para que recupere también los comentarios asociados a cada libro.
 
 En esta sección veremos cómo definir las relaciones entre entidades y realizaremos los cambios en los servicios para _hidratar_ o enriquecer cada objeto con los datos de sus objetos relacionados.
 
 ### Creación de la relación entre `Book` y `Publisher`
 
-Entre las entidades `Book` y `Publisher` hay una relación `M:1`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar la editorial de un libro así como los libros de una editorial.
+De acuerdo con el diagrama de la <<Introducción>>, entre las entidades `Book` y `Publisher` hay una relación `M:1`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar la editorial de un libro, así como los libros de una editorial.
 
 #### Modificación de las entidades
 
@@ -1016,7 +1051,7 @@ Comenzamos añadiendo los cambios a las entidades. Lo haremos en dos pasos:
 . Añadir los campos a cada entidad. 
 . Añadir a cada entidad los decoradores de las relaciones. 
 
-Lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
+Lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
 
 [NOTE]
 ====
@@ -1094,7 +1129,7 @@ export class Book {
   @ApiProperty({ example: { id: 1 } }) <1>
   @ManyToOne( <2>
     () => Publisher, <3>
-    publisher => publisher.books, <4>
+    (publisher: Publisher) => publisher.books, <4>
   )
   publisher: Publisher;
 }
@@ -1129,7 +1164,7 @@ export class Publisher {
 
   @OneToMany( <1>
     () => Book, <2>
-    book => book.publisher, <3>
+    (book: Book) => book.publisher, <3>
   )
   books: Book[];
 }
@@ -1144,7 +1179,7 @@ Al guardar los cambios en la entidad, estos cambios *no se trasladan* a la base 
 
 #### Modificación del DTO
 
-En este paso se modifican los DTO afectados. Para el caso de los libros habrá que modificar el DTO `create-book.dto.ts` para añadirle la editorial de un libro. Este DTO se usará tanto para la creación de nuevos libros como para la modificación de libros existentes. En cualquier caso, el valor introducido para editorial deberá ser un objeto con el campo `id` y el identificador de la editorial del libro. Por tanto. la editorial deberá existir previamente antes de asignarla a un libro.
+En este paso se modifican los DTO afectados. Para el caso de los libros, habrá que modificar el DTO `create-book.dto.ts` para añadirle la editorial de un libro. Este DTO se usará tanto para la creación de nuevos libros como para la modificación de libros existentes. En cualquier caso, el valor introducido para editorial deberá ser un objeto con el campo `id` y el identificador de la editorial del libro. Por tanto. la editorial deberá existir previamente antes de asignarla a un libro.
 
 .Archivo `create-book.dto.ts`
 ----
@@ -1179,11 +1214,11 @@ A continuación introduciremos un nuevo libro pasándole como valor de `publishe
 }
 ----
 
-Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelvel el libro creado con el nuevo identificador generado por la base de datos.
+Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelve el libro creado con el nuevo identificador generado por la base de datos.
 
 image:libro-insertado-con-editorial.png[]
 
-Del mismo modo, podemos modificar el primer libro para añadirle la editorial. Habría que usar el endpoint `PATCH /books/{id}` y pasarle como `body` el objeto de la editorial al que se quiere asignar. Como el libro `1` es de la editorial `Alfaguara`, que es la `2` haríamos la modificación tal y como indica la figura siguiente.
+Del mismo modo, podemos modificar el primer libro para añadirle la editorial. Habría que usar el endpoint `PATCH /books/{id}` y pasarle como `body` el objeto de la editorial al que se quiere asignar. Como el libro `1` es de la editorial `Alfaguara`, que es la que tiene `"id": 2`, haríamos la modificación tal y como indica la figura siguiente.
 
 image:asignar-editorial-a-libro.png[]
 
@@ -1200,7 +1235,7 @@ TypeORM permite que a la familia de métodos `find` se le pase un elemento `rela
 
 Veamos cómo hacerlo.
 
-Comenzaremos modificando el servicio de libros para que cargue las editoriales al recuperar un libro. Se trata de incluir la relación `publisher` en los métodos `find` y `findOne` de `books.service.ts`.
+Comenzaremos modificando el servicio de libros para que cargue las editoriales al recuperar un libro. Se trata de incluir la relación `publisher` en los métodos `find` y `findOne` de `books.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `books.service.ts`
 [source, ts]
@@ -1232,7 +1267,7 @@ Si ahora recuperamos los libros con el endpoint `GET /books` vemos que ya se inc
 
 image:libros-hidratados-con-editoriales.png[]
 
-A continuación modificamos el servicio de editoriales para que cargue los libros al recuperar una ediorial. Se trata de incluir la relación `books` en los métodos `find` y `findOne` de `publishers.service.ts`.
+A continuación modificamos el servicio de editoriales para que cargue los libros al recuperar una editorial. Se trata de incluir la relación `books` en los métodos `find` y `findOne` de `publishers.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `publishers.service.ts`
 [source, ts]
@@ -1260,13 +1295,13 @@ export class PublishersService {
 <1> Carga de los libros relacionadas al recuperar las editoriales
 <2> Carga de los libros relacionados al recuperar una editorial
 
-Si ahora recuperamos las editoriales con el endpoint `GET /publishers` vemos que ya se incorpora los libros a cada editorial.
+Si ahora recuperamos las editoriales con el endpoint `GET /publishers` vemos que ya se incorporan los libros a cada editorial.
 
 image:editorial-hidratada-con-libros.png[]
 
 ### Creación de la relación entre `Book` y `Comment`
 
-Entre las entidades `Book` y `Comment` hay una relación `1:M`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar los comentarios de un libro así como ver a qué libro corresponde un comentario.
+De acuerdo con el diagrama de la <<Introducción>>, entre las entidades `Book` y `Comment` hay una relación `1:M`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar los comentarios de un libro, así como ver a qué libro corresponde un comentario.
 
 #### Modificación de las entidades
 
@@ -1275,7 +1310,7 @@ Comenzamos añadiendo los cambios a las entidades. Lo haremos en dos pasos:
 . Añadir los campos a cada entidad. 
 . Añadir a cada entidad los decoradores de las relaciones. 
 
-Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
+Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
 
 [NOTE]
 ====
@@ -1428,7 +1463,7 @@ Al guardar los cambios en la entidad, ya sí se trasladan los cambios a la base 
 
 #### Modificación del DTO
 
-En este paso se modifican los DTO afectados. Para el caso de los comentarios habrá que modificar el DTO `create-comment.dto.ts` para añadirle el identificador de un libro. Este DTO se usará tanto para la creación de nuevos comentarios como para la modificación de comentarios existentes. En cualquier caso, el valor introducido para el libro deberá ser un objeto con el campo `id` y el identificador del libro. Por tanto, el libro deberá existir previamente antes de crearle un comentario.
+En este paso se modifican los DTO afectados. Para el caso de los comentarios, habrá que modificar el DTO `create-comment.dto.ts` para añadirle el identificador de un libro. Este DTO se usará tanto para la creación de nuevos comentarios como para la modificación de comentarios existentes. En cualquier caso, el valor introducido para el libro deberá ser un objeto con el campo `id` y el identificador del libro. Por tanto, el libro deberá existir previamente antes de crearle un comentario.
 
 .Archivo `create-comment.dto.ts`
 ----
@@ -1441,7 +1476,7 @@ export class CreateCommentDto {
   readonly username: string;
 
   @ApiProperty({ example: { id: 1 }, type: String }) <1>
-  readonly book: Book;
+  readonly book: Book; <2>
 }
 
 ----
@@ -1468,15 +1503,15 @@ A continuación introduciremos un nuevo comentario pasándole como valor de `boo
 }
 ----
 
-Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del comentario y devuelvel el comentario creado con el nuevo identificador generado por la base de datos.
+Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del comentario y devuelve el comentario creado con el nuevo identificador generado por la base de datos.
 
 image:comentario-insertado-con-libro.png[]
 
-Del mismo modo, podemos modificar el primer comentario para añadirle un libro. Habría que usar el endpoint `PATCH /comments/{id}` y pasarle como `body` el objeto del libro al que se quiere asignar. Haríamos la modificación de asignar el comentario ' 1'  al libro `1`, tal y como indica la figura siguiente.
+Del mismo modo, podemos modificar el primer comentario para añadirle un libro. Habría que usar el endpoint `PATCH /comments/{id}` y pasarle como `body` el objeto del libro al que se quiere asignar. Haríamos la modificación de asignar el libro con `"id": 1` al comentario `1`, tal y como indica la figura siguiente.
 
 image:asignar-comentario-a-libro.png[]
 
-Sin embargo, si recuperamos los comentarios con el endpoint `GET /comments` veremos que aparecen los comentarios, pero sin libro. Del mismo modo, si obtenemos el libro `1`, al que le hemos creados los comentarios, vemos que los datos aún no aparecen. En la sección siguiente veremos cómo modificar `comments.service.ts` para que devuelva los datos del libro al recuperar un comentario.
+Sin embargo, si recuperamos los comentarios con el endpoint `GET /comments` veremos que aparecen los comentarios, pero sin libro. Del mismo modo, si obtenemos el libro `1`, al que le hemos creado los comentarios, vemos que los datos aún no aparecen. En la sección siguiente veremos cómo modificar `comments.service.ts` para que devuelva los datos del libro al recuperar un comentario.
 
 image:comentarios-sin-libro.png[]
 
@@ -1489,7 +1524,7 @@ Tal y como comentamos anteriormente, TypeORM permite que a la familia de método
 
 Veamos cómo hacerlo.
 
-Comenzaremos modificando el servicio de libros para que cargue los comentarios al recuperar un libro. Se trata de incluir la relación `comments` en los métodos `find` y `findOne` de `books.service.ts`.
+Comenzaremos modificando el servicio de libros para que cargue los comentarios al recuperar un libro. Se trata de incluir la relación `comments` en los métodos `find` y `findOne` de `books.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `books.service.ts`
 [source, ts]
@@ -1521,7 +1556,7 @@ Si ahora recuperamos los libros con el endpoint `GET /books` vemos que ya se inc
 
 image:libros-hidratados-con-comentarios.png[]
 
-A continuación modificamos el servicio de comentarios para que cargue el libro al recuperar un comentario. Se trata de incluir la relación `book` en los métodos `find` y `findOne` de `comments.service.ts`.
+A continuación modificamos el servicio de comentarios para que cargue el libro al recuperar un comentario. Se trata de incluir la relación `book` en los métodos `find` y `findOne` de `comments.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `comments.service.ts`
 [source, ts]
@@ -1555,7 +1590,7 @@ image:comentario-hidratado-con-libro.png[]
 
 ### Creación de la relación entre `Book` y `Keyword`
 
-Entre las entidades `Book` y `Keyword` hay una relación `M:N`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar las palabras clave de un libro así como ver los libros asociados a una palabra clave.
+De acuerdo con el diagrama de la <<Introducción>>, entre las entidades `Book` y `Keyword` hay una relación `M:N`. Podemos hacer la relación unidireccional o bidireccional. En este tutorial la haremos bidireccional para que podamos mostrar las palabras clave de un libro, así como ver los libros asociados a una palabra clave.
 
 #### Modificación de las entidades
 
@@ -1564,7 +1599,7 @@ Comenzamos añadiendo los cambios a las entidades. Lo haremos en dos pasos:
 . Añadir los campos a cada entidad. 
 . Añadir a cada entidad los decoradores de las relaciones. 
 
-Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
+Tal y como hemos comentado, lo hacemos en dos pasos porque los decoradores usan los nombres de campo del otro extremo de la relación. Por tanto, para no provocar errores durante la creación de las relaciones, definiremos primero los campos para poder referenciarlos al crear las relaciones en el segundo paso.
 
 [NOTE]
 ====
@@ -1652,7 +1687,12 @@ export class Book {
 
 Para la definición de la propiedad se establece un objeto (`keyword`) de la entidad del otro extremo y se indica el campo que establece la relación inversa (`keyword.books`).
 
-Al guardar los cambios en la entidad, se habrá creado una nueva tabla en la base de datos, ya que en relaciones `M:N` se crea una tabla nueva para la relación formada por la unión de las claves de entidades que participan en la relación(`Book` y `Keyword`).
+Al guardar los cambios en la entidad, se habrá creado una nueva tabla en la base de datos, ya que en relaciones `M:N` se crea una tabla nueva para la relación formada por la unión de las claves de las entidades que participan en la relación (`Book` y `Keyword`).
+
+[CAUTION]
+====
+El decorador `@JoinTable` sólo se puede colocar en un extremo de la relación. A ese extremo se le conoce como _propietario_.
+====
 
 A continuación se muestran los cambios introducidos en la entidad `Keyword` para añadir la relación `M:N` con `Book`.
 
@@ -1708,7 +1748,7 @@ export class CreateBookDto {
 <1> Ejemplo de identificadores de palabras clave de un libro
 <2> Nuevo campo para el DTO
 
-A continuación introduciremos un nuevo libro pasándole como valor de `keyword` las dos existentes (`[{"id": 1}, {"id": 2}]`).
+A continuación introduciremos un nuevo libro pasándole como valor de `keyword` las dos palabras claves existentes (`[{"id": 1}, {"id": 2}]`).
 
 [source, json]
 ----
@@ -1733,13 +1773,13 @@ A continuación introduciremos un nuevo libro pasándole como valor de `keyword`
 }
 ----
 
-Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelvel el libro creado con el nuevo identificador generado por la base de datos.
+Tras la inserción vemos que el servidor responde correctamente mostrando el código de estado HTTP de la creación del libro y devuelve el libro creado con el nuevo identificador generado por la base de datos.
 
 image:libro-insertado-con-palabras-clave.png[]
 
 Del mismo modo, podríamos modificar un libro existente para añadirle palabras clave. Habría que usar el endpoint `PATCH /books/{id}` y pasarle como `body` el array de objetos palabras clave que se le quieren asignar. 
 
-Sin embargo, si recuperamos los libros con el endpoint `GET /books` veremos que aparece el libro, pero sin las palabras clave. Del mismo modo, si obtenemos las palabras clave, vemos que los aparece el libro que tiene esas palabras clave. En la sección siguiente veremos cómo modificar `books.service.ts` para que devuelva las palabras clave al recuperar un libro.
+Sin embargo, si recuperamos los libros con el endpoint `GET /books` veremos que aparece el libro, pero sin las palabras clave. Del mismo modo, si obtenemos las palabras clave, con `GET /keywords` vemos que no aparece el libro que tiene esas palabras clave. En la sección siguiente veremos cómo modificar `books.service.ts` para que devuelva las palabras clave al recuperar un libro.
 
 image:libro-sin-palabras-clave.png[]
 
@@ -1752,7 +1792,7 @@ Tal y como comentamos anteriormente, TypeORM permite que a la familia de método
 
 Veamos cómo hacerlo.
 
-Comenzaremos modificando el servicio de libros para que cargue las palabras clave al recuperar un libro. Se trata de incluir la relación `keywords` en los métodos `find` y `findOne` de `books.service.ts`.
+Comenzaremos modificando el servicio de libros para que cargue las palabras clave al recuperar un libro. Se trata de incluir la relación `keywords` en los métodos `find` y `findOne` de `books.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `books.service.ts`
 [source, ts]
@@ -1786,7 +1826,7 @@ Si ahora recuperamos los libros con el endpoint `GET /books` vemos que ya se inc
 
 image:libros-hidratados-con-palabras-clave.png[]
 
-A continuación modificamos el servicio de palabras clave para que cargue los libros asociados al recuperar una palabra clave. Se trata de incluir la relación `books` en los métodos `find` y `findOne` de `keywords.service.ts`.
+A continuación modificamos el servicio de palabras clave para que cargue los libros asociados al recuperar una palabra clave. Se trata de incluir la relación `books` en los métodos `find` y `findOne` de `keywords.service.ts`. El nombre de la relación se toma del campo decorado con el decorador de relación.
 
 .Archivo `keywords.service.ts`
 [source, ts]
